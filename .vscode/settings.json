@@ -1,0 +1,10 @@
+{
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "extensions.ignoreRecommendations": true,
+    "prettier.requireConfig": true,
+    "workbench.colorTheme": "Default Light+"
+}
