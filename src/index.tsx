@@ -5,7 +5,7 @@ import { StyledTextarea } from './styled-textarea';
 import { StyledVideo } from './styled-video';
 import { TimerUpdate } from './timer-update';
 import {
-    UiHandlers,
+    EventHandlers,
     addIceCandidates,
     addUserMediaTracks,
     closeConnection,
@@ -36,11 +36,11 @@ function App() {
     const localVideoRef = useRef<HTMLVideoElement>(null);
     const remoteVideoRef = useRef<HTMLVideoElement>(null);
 
-    const { messages, uiHandlers } = useMemo(() => {
+    const { messages, eventHandlers } = useMemo(() => {
         const candidates = new TimerUpdate(setLocalIceCandidates);
         const messages = new TimerUpdate<Message>(() => forceUpdate({}));
 
-        const uiHandlers: UiHandlers = {
+        const eventHandlers: EventHandlers = {
             onDataChannelClosed: () => setDataChannel(undefined),
             // Multiple channels could be added but, for simplicity, we only handle one
             onDataChannelOpened: setDataChannel,
@@ -55,7 +55,7 @@ function App() {
         return {
             // messages is exported since we need to update it locally as well
             messages,
-            uiHandlers,
+            eventHandlers,
         };
     }, []);
 
@@ -74,7 +74,7 @@ function App() {
             <p>
                 <button
                     onClick={() => {
-                        const nextConnection = initialize(uiHandlers);
+                        const nextConnection = initialize(eventHandlers);
                         setConnection(nextConnection);
                     }}
                 >
@@ -85,7 +85,7 @@ function App() {
                 <button
                     onClick={() => {
                         if (connection) {
-                            createDataChannel(connection, 'data-channel', uiHandlers);
+                            createDataChannel(connection, 'data-channel', eventHandlers);
                             // The corresponding state will be set upon onDataChannelOpened
                         }
                     }}

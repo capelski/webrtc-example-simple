@@ -1,4 +1,4 @@
-export interface UiHandlers {
+export interface EventHandlers {
     onDataChannelClosed: () => void;
     onDataChannelOpened: (dataChannel: RTCDataChannel) => void;
     onIceCandidate: (candidate: RTCIceCandidate) => void;
@@ -13,7 +13,10 @@ export async function addIceCandidates(connection: RTCPeerConnection, remoteCand
     }
 }
 
-export function addUserMediaTracks(connection: RTCPeerConnection, tracks: MediaStreamTrack[]) {
+export function addUserMediaTracks(
+    connection: RTCPeerConnection,
+    tracks: MediaStreamTrack[],
+): RTCRtpSender[] {
     return tracks.map((track) => {
         return connection.addTrack(track);
     });
@@ -27,7 +30,9 @@ export function closeDataChannel(dataChannel: RTCDataChannel) {
     dataChannel.close();
 }
 
-export async function createAnswer(connection: RTCPeerConnection) {
+export async function createAnswer(
+    connection: RTCPeerConnection,
+): Promise<RTCSessionDescriptionInit> {
     const answer = await connection.createAnswer();
     await connection.setLocalDescription(answer);
     return answer;
@@ -36,20 +41,22 @@ export async function createAnswer(connection: RTCPeerConnection) {
 export function createDataChannel(
     connection: RTCPeerConnection,
     label: string,
-    uiHandlers: UiHandlers,
+    uiHandlers: EventHandlers,
 ) {
     const dataChannel = connection.createDataChannel(label);
 
     setDataChannelHandlers(dataChannel, uiHandlers);
 }
 
-export async function createOffer(connection: RTCPeerConnection) {
+export async function createOffer(
+    connection: RTCPeerConnection,
+): Promise<RTCSessionDescriptionInit> {
     const offer = await connection.createOffer();
     await connection.setLocalDescription(offer);
     return offer;
 }
 
-export function initialize(uiHandlers: UiHandlers): RTCPeerConnection {
+export function initialize(uiHandlers: EventHandlers): RTCPeerConnection {
     const connection = new RTCPeerConnection();
 
     connection.onicecandidate = (event) => {
@@ -79,7 +86,7 @@ export function sendMessage(dataChannel: RTCDataChannel, message: string) {
     dataChannel.send(message);
 }
 
-function setDataChannelHandlers(dataChannel: RTCDataChannel, uiHandlers: UiHandlers) {
+function setDataChannelHandlers(dataChannel: RTCDataChannel, uiHandlers: EventHandlers) {
     dataChannel.onopen = () => {
         uiHandlers.onDataChannelOpened(dataChannel);
     };
