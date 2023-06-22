@@ -41,11 +41,11 @@ export async function createAnswer(
 export function createDataChannel(
     connection: RTCPeerConnection,
     label: string,
-    uiHandlers: EventHandlers,
+    eventHandlers: EventHandlers,
 ) {
     const dataChannel = connection.createDataChannel(label);
 
-    setDataChannelHandlers(dataChannel, uiHandlers);
+    setDataChannelHandlers(dataChannel, eventHandlers);
 }
 
 export async function createOffer(
