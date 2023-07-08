@@ -30,7 +30,7 @@ export function closeDataChannel(dataChannel: RTCDataChannel) {
     dataChannel.close();
 }
 
-export async function createAnswer(
+export async function createAndSetAnswer(
     connection: RTCPeerConnection,
 ): Promise<RTCSessionDescriptionInit> {
     const answer = await connection.createAnswer();
@@ -48,7 +48,7 @@ export function createDataChannel(
     setDataChannelHandlers(dataChannel, eventHandlers);
 }
 
-export async function createOffer(
+export async function createAndSetOffer(
     connection: RTCPeerConnection,
 ): Promise<RTCSessionDescriptionInit> {
     const offer = await connection.createOffer();

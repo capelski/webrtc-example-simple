@@ -10,9 +10,9 @@ import {
     addUserMediaTracks,
     closeConnection,
     closeDataChannel,
-    createAnswer,
+    createAndSetAnswer,
+    createAndSetOffer,
     createDataChannel,
-    createOffer,
     initialize,
     sendMessage,
     setRemoteDescription,
@@ -119,7 +119,7 @@ function App() {
                 <button
                     onClick={async () => {
                         if (connection) {
-                            const nextOffer = await createOffer(connection);
+                            const nextOffer = await createAndSetOffer(connection);
                             setLocalSession(nextOffer);
                         }
                     }}
@@ -131,7 +131,7 @@ function App() {
                 <button
                     onClick={async () => {
                         if (connection) {
-                            const nextAnswer = await createAnswer(connection);
+                            const nextAnswer = await createAndSetAnswer(connection);
                             setLocalSession(nextAnswer);
                         }
                     }}

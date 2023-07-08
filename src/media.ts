@@ -14,7 +14,7 @@ export function addTrack(elementRef: RefObject<HTMLVideoElement>, track: MediaSt
 
 export function createMediaStream() {
     return navigator.mediaDevices.getUserMedia({
-        // audio: true, // Disabled to prevent microphone feedback on same machine connections
+        audio: false, // Disabled to prevent microphone feedback on same machine connections
         video: videoSize,
     });
 }
