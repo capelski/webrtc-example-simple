@@ -6,8 +6,10 @@ export interface EventHandlers {
     onRemoteStreamTrack: (track: MediaStreamTrack) => void;
 }
 
-export async function addIceCandidates(connection: RTCPeerConnection, remoteCandidates: string) {
-    const candidates = JSON.parse(remoteCandidates);
+export async function addIceCandidates(
+    connection: RTCPeerConnection,
+    candidates: RTCIceCandidateInit[],
+) {
     for (const candidate of candidates) {
         await connection.addIceCandidate(candidate);
     }
@@ -103,7 +105,7 @@ function setDataChannelHandlers(dataChannel: RTCDataChannel, uiHandlers: EventHa
 
 export async function setRemoteDescription(
     connection: RTCPeerConnection,
-    remoteDescription: string,
+    remoteDescription: RTCSessionDescriptionInit,
 ) {
-    await connection.setRemoteDescription(JSON.parse(remoteDescription));
+    await connection.setRemoteDescription(remoteDescription);
 }

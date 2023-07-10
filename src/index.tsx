@@ -152,7 +152,7 @@ function App() {
                 <button
                     onClick={() => {
                         if (connection) {
-                            setRemoteDescription(connection, remoteSession);
+                            setRemoteDescription(connection, JSON.parse(remoteSession));
                         }
                     }}
                     disabled={!connection}
@@ -170,7 +170,7 @@ function App() {
                 <button
                     onClick={() => {
                         if (connection) {
-                            addIceCandidates(connection, remoteIceCandidates);
+                            addIceCandidates(connection, JSON.parse(remoteIceCandidates));
                         }
                     }}
                     disabled={!connection}
